@@ -19,7 +19,8 @@
   "homepage": "https://github.com/sumitsale/node-demo#readme",
   "dependencies": {
     "express": "^4.14.0",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "jade": "^1.11.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
