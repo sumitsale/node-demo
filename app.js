@@ -8,9 +8,17 @@ app.use(express.static('public'));
 app.set('views','./src/views');
 app.set('view engine', 'jade');
 
-app.get('/', function (req, res) {
-	res.render('index', {list: ['a','b']});
-});
+var nav = [
+			{Text:'Books',url:'/books'},
+			{Text:'Authors',url:'/authors'},
+		  ];
+
+var bookRouter = require('./src/routes/bookRoutes');
+app.use('/books', bookRouter);
+
+var homeRouter = require('./src/routes/homeRoutes');
+app.use('/', homeRouter);
+
 
 app.get('/books', function (req, res) {
 	res.send('Hello Books');

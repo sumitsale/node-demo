@@ -67,22 +67,17 @@ html(lang='en')
           .panel
             .panel-body
               // /stories
-              each val, index in books
-               .row
+              .row
                 br
                 .col-md-2.col-sm-3.text-center
                   a.story-title(href='#')
                     img.img-circle(alt='', src='http://api.randomuser.me/portraits/thumb/men/58.jpg', style='width:100px;height:100px')
                 .col-md-10.col-sm-9
-                  h3= val.title
+                  h3= book.title
                   .row
                     .col-xs-9
                       h4
-                        span.label.label-default= val.author
-                      h4
-                        small.text-muted(style="font-family:courier,'new courier';")
-                          | 2 hours ago  • 
-                          a.text-muted(href= 'books/'+index) Read More
+                        span.label.label-default= book.author
                     .col-xs-3
                   br
                   br
