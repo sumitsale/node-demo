@@ -1,60 +1,57 @@
 var express = require('express');
+var mongodb = require('mongodb').MongoClient;
+var objectID = require('mongodb').ObjectID;
+require('nodedump');
 
 var bookRouter = express.Router();
 
-var books = [
-	{
-		title: 'war of peace1',
-		genre: 'historical1',
-		author: 'John1',
-		read: false
-	},{
-		title: 'war of peace2',
-		genre: 'historical2',
-		author: 'John2',
-		read: false
-	},{
-		title: 'war of peace3',
-		genre: 'historical3',
-		author: 'John3',
-		read: false
-	},{
-		title: 'war of peace4',
-		genre: 'historical4',
-		author: 'John4',
-		read: false
-	},{
-		title: 'war of peace5',
-		genre: 'historical5',
-		author: 'John5',
-		read: false
-	},
-];
-
-bookRouter.route('/')
-	.get(function (req, res) {
-	res.render('books', {title: 'books',
-						nav:[
-							{Text:'Books',url:'/books'},
-							{Text:'Authors',url:'/authors'},
-						],
-						 books: books
-						}
-			  );
-});
+	var router = function(nav) {
+		
+	bookRouter.route('/')
+		.get(function (req, res) {
+		
+		var url = 'mongodb://localhost:27017/libraryApp';
+		
+		mongodb.connect(url, function(err, db){
+		
+		mongodb.connect(url, function(err, db){
+			var collection = db.collection('books');
+			 collection.find({}).toArray(function(err, results){
+				 
+				 		res.render('books', {title: 'books',
+							nav: nav,
+							 books: results
+							});
+			 });
+		});	
+	});
+	});
 
 
-bookRouter.route('/:id')
-	.get(function (req, res) {
-		var id = req.params.id;
-		res.render('bookView', {title: 'book',
-						nav:[
-							{Text:'Books',url:'/books'},
-							{Text:'Authors',url:'/authors'},
-						],
-						 book: books[id]
-						}
-			  );
-});
+	bookRouter.route('/:id')
+			.get(function (req, res) {
 
-module.exports = bookRouter;
+			var id = new objectID(req.params.id);
+nodedump(id);
+			/*var url = 'mongodb://localhost:27017/libraryApp';
+
+			mongodb.connect(url, function(err, db){
+
+				mongodb.connect(url, function(err, db){
+					var collection = db.collection('books');
+					 collection.findOne({_id:id}), function(err, results){
+
+								res.render('books', {title: 'books',
+									nav: nav,
+									 books: results
+									});
+					 };
+				});	
+			});
+		*/
+	});
+
+return bookRouter;	
+};
+
+module.exports = router;
